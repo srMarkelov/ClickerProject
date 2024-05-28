@@ -1,16 +1,17 @@
 using Core.UI.Wallet;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Installers
 {
     public class WalletInstaller : MonoInstaller
     {
-        [SerializeField] private WallerHandler wallerHandler;
+        [SerializeField] private WalletStorage walletStorage;
         public override void InstallBindings()
         {
-            Container.Bind<WallerHandler>().FromInstance(wallerHandler).AsSingle();
-            Container.QueueForInject(wallerHandler);
+            Container.Bind<WalletStorage>().FromInstance(walletStorage).AsSingle();
+            Container.QueueForInject(walletStorage);
         }
     }
 }

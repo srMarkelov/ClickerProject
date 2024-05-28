@@ -7,12 +7,12 @@ namespace Installers
 {
     public class EnemySpawnerInstaller : MonoInstaller
     {
-        [FormerlySerializedAs("enemySpawner")] [SerializeField] private EnemySpawnerFactory enemySpawnerFactory;
+        [SerializeField] private EnemySpawner enemySpawner;
 
         public override void InstallBindings()
         {
-            Container.Bind<EnemySpawnerFactory>().FromInstance(enemySpawnerFactory).AsSingle();
-            Container.QueueForInject(enemySpawnerFactory);
+            Container.Bind<EnemySpawner>().FromInstance(enemySpawner).AsSingle();
+            Container.QueueForInject(enemySpawner);
         }
     }
 }

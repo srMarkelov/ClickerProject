@@ -7,15 +7,18 @@ namespace Core.Enemy
 {
     public class EnemyUnit :MonoBehaviour, IEnemy
     {
-        [Inject] private EnemySpawnerFactory _enemySpawnerFactory;
-        public int Health { get; set; }
+        public IntReactiveProperty Health { get; set; }
         public int RewardGold { get; set; }
         private bool _deathEnemy;
-        
+
+        private void Awake()
+        {
+            Health = new IntReactiveProperty();
+        }
 
         public void SetHealth(int health)
         {
-            Health = health;
+            Health.Value = health;
         }
         public void SetRewardGold(int gold)
         {
@@ -27,8 +30,8 @@ namespace Core.Enemy
             if(_deathEnemy)
                 return;
             
-            Health -= valueDamage;
-            if (Health <= 0)
+            Health.Value -= valueDamage;
+            if (Health.Value <= 0)
             {
                 Death();
             }
@@ -37,7 +40,6 @@ namespace Core.Enemy
         public void Death()
         {
             _deathEnemy = true;
-            _enemySpawnerFactory.DeadCurrentEnemy();
             Debug.Log("BobikSdoh");
             Destroy(gameObject);
         }
