@@ -1,46 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core.Enemy;
 using Core.Game;
+using Core.Player;
 using UnityEngine;
 using Zenject;
 using Zenject.Asteroids;
 
 public class EnemyFactory : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private GameObject enemyBossPrefab;
-
-    [Inject] private LevelHandler _levelHandler;
-
-
-    public GameObject CreateNewEnemy()
+    [Inject] private PlayerHandler _playerHandler;
+    public void SetHealthCurrentEnemy(IEnemy enemy, int currentLevel)
     {
-        if (IsDivisibleByTen(_levelHandler.CurrentLevel.Value))
+        var playerAttackPower = _playerHandler.GetAttackPower();
+        
+        if (enemy.EnemyType == EnemyType.EnemyBoss)
         {
-            return CreateBoss();
+            var randomBaseHealth = Random.Range(3, 5);
+            var healthEnemy = randomBaseHealth * playerAttackPower * currentLevel;
+            enemy.SetHealth(healthEnemy); 
         }
         else
         {
-            return CreateEnemy();
+            var randomBaseHealth = Random.Range(1, 3);
+            var healthEnemy = randomBaseHealth * playerAttackPower * currentLevel;
+            enemy.SetHealth(healthEnemy); 
         }
-    }
-
-    private GameObject CreateEnemy()
-    {
-        Debug.Log("Обычный враг");
-        return enemyPrefab;
-    }
-
-    private GameObject CreateBoss()
-    {
-        Debug.Log("Враг-Босс");
-
-        return enemyBossPrefab;
-    }
-
-    private bool IsDivisibleByTen(int number)
-    {
-        return number % 10 == 0;
     }
     
 }

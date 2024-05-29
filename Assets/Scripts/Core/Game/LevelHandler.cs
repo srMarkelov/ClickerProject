@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -11,6 +12,11 @@ namespace Core.Game
         
         private readonly IntReactiveProperty _currentLevel = new IntReactiveProperty();
         public IReadOnlyReactiveProperty<int> CurrentLevel => _currentLevel;
+
+        private void Start()
+        {
+            SetCurrentLevel(1);
+        }
 
         public void LevelComplete()
         {

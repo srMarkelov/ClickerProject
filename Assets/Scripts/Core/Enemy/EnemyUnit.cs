@@ -8,12 +8,14 @@ namespace Core.Enemy
     public class EnemyUnit :MonoBehaviour, IEnemy
     {
         public IntReactiveProperty Health { get; set; }
+        public EnemyType EnemyType { get; set; }
         public int RewardGold { get; set; }
         private bool _deathEnemy;
 
         private void Awake()
         {
             Health = new IntReactiveProperty();
+            EnemyType = EnemyType.EnemyUnit;
         }
 
         public void SetHealth(int health)

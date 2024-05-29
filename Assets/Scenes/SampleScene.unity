@@ -516,6 +516,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &708017315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 708017316}
+  - component: {fileID: 708017317}
+  m_Layer: 0
+  m_Name: StorageHandlerInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &708017316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708017315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1773678251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &708017317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708017315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1919235acf92be46b687bd791fcc0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storageHandler: {fileID: 1867438158}
 --- !u!1 &936610005
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,6 +952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f751d23c1debc468fc5937b57960bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPower: 2
 --- !u!136 &1215292999
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1464,6 +1510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e8dddba7a843e4f9a06d45ac10f706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 8716569074570472346, guid: a0e67de5d950a074c9e484eddbfeed86, type: 3}
+  enemyBossPrefab: {fileID: 8716569074570472346, guid: e5df0ce79c552354f838896a911d7a01, type: 3}
 --- !u!4 &1645346397
 Transform:
   m_ObjectHideFlags: 0
@@ -1515,6 +1563,7 @@ Transform:
   - {fileID: 1258032733}
   - {fileID: 78170540}
   - {fileID: 236346483}
+  - {fileID: 708017316}
   m_Father: {fileID: 546176522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1773678252
@@ -1554,6 +1603,50 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!1 &1867438157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1867438159}
+  - component: {fileID: 1867438158}
+  m_Layer: 0
+  m_Name: StorageHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1867438158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867438157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451867e838983e449877c57edb932e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1867438159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867438157}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1892435170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,8 +1676,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b7ae96e0181ab4aa5c924eda5fdb0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8716569074570472346, guid: e5df0ce79c552354f838896a911d7a01, type: 3}
-  enemyBossPrefab: {fileID: 8716569074570472346, guid: e5df0ce79c552354f838896a911d7a01, type: 3}
 --- !u!4 &1892435172
 Transform:
   m_ObjectHideFlags: 0
@@ -1616,3 +1707,4 @@ SceneRoots:
   - {fileID: 69389165}
   - {fileID: 1645346397}
   - {fileID: 1892435172}
+  - {fileID: 1867438159}
