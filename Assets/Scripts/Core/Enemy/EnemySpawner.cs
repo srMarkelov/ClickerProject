@@ -18,35 +18,20 @@ namespace Core.Enemy
         [Inject] private PlayerHandler _playerHandler;
         [Inject] private EnemyFactory _enemyFactory;
         [Inject] private LevelHandler _levelHandler;
+        [Inject] private GameHandler _gameHandler;
         [Inject] private DiContainer _diContainer;
 
         private IEnemy _currentEnemy;
         
-        private readonly BoolReactiveProperty _currentEnemyDead = new BoolReactiveProperty();
-
-        public IReadOnlyReactiveProperty<bool> CurrentEnemyDead => _currentEnemyDead;
         
-
-        private void Start()
+        public void SpawnEnemy()
         {
-            SpawnEnemy();
-        }
-        
-        private void SpawnEnemy()
-        {
-            _currentEnemyDead.Value = false;
-            
             var enemy = _diContainer.InstantiatePrefab(CreateNewEnemy(DefineLevelType()), transform.position, Quaternion.identity, null);
             _currentEnemy = enemy.GetComponent<IEnemy>();
             _enemyFactory.SetHealthCurrentEnemy(_currentEnemy,_levelHandler.CurrentLevel.Value);
+            _enemyFactory.SetRewardCurrentEnemy(_currentEnemy,_levelHandler.CurrentLevel.Value);
             
-            _currentEnemy.Health
-                .Where(_ => _ <= 0)
-                .Subscribe(_ =>
-                {
-                    StartCoroutine("DeadCurrentEnemy");
-                });
-            
+            _gameHandler.SetCurrentEnemy(_currentEnemy);
             _playerHandler.SerCurrentEnemy(_currentEnemy);
         }
 
@@ -64,14 +49,7 @@ namespace Core.Enemy
             return newEnemy;
         }
         
-        private IEnumerator DeadCurrentEnemy()
-        {
-            Debug.Log("Умер");
-            _currentEnemyDead.Value = true;
-            _currentEnemy = null;
-            yield return new WaitForSeconds(1f);
-            SpawnEnemy();
-        }
+        
 
         public IEnemy GetCurrentEnemy()
         {
@@ -81,7 +59,7 @@ namespace Core.Enemy
         private bool DefineLevelType()
         {
             bool bossLevel = false;
-            if (IsDivisibleByTen(_levelHandler.CurrentLevel.Value))
+            if (IsDivisibleByTen(_levelHandler.CurrentLevel.Value) && _levelHandler.CurrentLevel.Value != 0)
             {
                 return bossLevel = true;
             }

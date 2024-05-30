@@ -27,5 +27,22 @@ public class EnemyFactory : MonoBehaviour
             enemy.SetHealth(healthEnemy); 
         }
     }
+
+    public void SetRewardCurrentEnemy(IEnemy enemy, int currentLevel)
+    {
+        if (enemy.EnemyType == EnemyType.EnemyBoss)
+        {
+            var randomBaseReward = Random.Range(3, 5);
+            var rewardEnemy = randomBaseReward * currentLevel;
+            Debug.Log(rewardEnemy);
+            enemy.SetReward(rewardEnemy); 
+        }
+        else
+        {
+            var randomBaseReward = Random.Range(1, 3);
+            var rewardEnemy = randomBaseReward * currentLevel;
+            enemy.SetReward(rewardEnemy);
+        }
+    }
     
 }

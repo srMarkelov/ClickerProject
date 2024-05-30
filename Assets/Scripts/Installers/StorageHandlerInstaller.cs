@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Game;
 using UnityEngine;
 using Zenject;
 
-public class StorageHandlerInstaller : MonoInstaller
+namespace Installers
 {
-    [SerializeField] private StorageHandler storageHandler;
-    public override void InstallBindings()
+    public class StorageHandlerInstaller : MonoInstaller
     {
-        Container.Bind<StorageHandler>().FromInstance(storageHandler).AsSingle();
-        Container.QueueForInject(storageHandler);
+        [SerializeField] private StorageHandler storageHandler;
+        public override void InstallBindings()
+        {
+            Container.Bind<StorageHandler>().FromInstance(storageHandler).AsSingle();
+            Container.QueueForInject(storageHandler);
+        }
     }
 }

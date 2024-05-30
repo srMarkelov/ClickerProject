@@ -8,6 +8,7 @@ namespace Core.Enemy
         public EnemyType EnemyType{ get; set; }
         public int RewardGold { get; set; }
         public void SetHealth(int health);
+        public void SetReward(int gold);
         public void TakeDamage(int valueDamage);
         public void Death();
     }

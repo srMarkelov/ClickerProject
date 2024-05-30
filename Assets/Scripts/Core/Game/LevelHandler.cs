@@ -13,6 +13,14 @@ namespace Core.Game
         private readonly IntReactiveProperty _currentLevel = new IntReactiveProperty();
         public IReadOnlyReactiveProperty<int> CurrentLevel => _currentLevel;
 
+        private void Awake()
+        {
+            if (_currentLevel.Value <= 0)
+            {
+                _currentLevel.Value = 1;
+            }
+        }
+
         private void Start()
         {
             SetCurrentLevel(1);

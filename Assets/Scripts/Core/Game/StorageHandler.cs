@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+using UniRx;
 using UnityEngine;
 
-public class StorageHandler : MonoBehaviour
+namespace Core.Game
 {
-    // Start is called before the first frame update
-    void Start()
+    public class StorageHandler : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private TextMeshProUGUI goldText;
+        private readonly IntReactiveProperty _goldInStorage = new IntReactiveProperty();
+        public IReactiveProperty<int> GoldInStorage => _goldInStorage;
+        public void AddReward(int gold)
+        {
+            _goldInStorage.Value += gold;
+            goldText.text = _goldInStorage.Value.ToString();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void RemoveGold(int gold)
+        {
+            if (_goldInStorage.Value < gold)
+                return;
+            
+            _goldInStorage.Value -= gold;
+            goldText.text = _goldInStorage.Value.ToString();
+        }
     }
 }

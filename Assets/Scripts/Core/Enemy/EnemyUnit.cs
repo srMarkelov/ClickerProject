@@ -22,6 +22,12 @@ namespace Core.Enemy
         {
             Health.Value = health;
         }
+
+        public void SetReward(int gold)
+        {
+            RewardGold = gold;
+        }
+
         public void SetRewardGold(int gold)
         {
             RewardGold = gold;
