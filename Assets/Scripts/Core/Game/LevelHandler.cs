@@ -9,7 +9,7 @@ namespace Core.Game
     public class LevelHandler : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI levelText;
-        
+
         private readonly IntReactiveProperty _currentLevel = new IntReactiveProperty();
         public IReadOnlyReactiveProperty<int> CurrentLevel => _currentLevel;
 

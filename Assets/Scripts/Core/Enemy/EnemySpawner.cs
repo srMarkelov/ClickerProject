@@ -14,48 +14,48 @@ namespace Core.Enemy
     {
         [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject enemyBossPrefab;
-        
+
         [Inject] private PlayerHandler _playerHandler;
         [Inject] private EnemyFactory _enemyFactory;
         [Inject] private LevelHandler _levelHandler;
         [Inject] private GameHandler _gameHandler;
         [Inject] private DiContainer _diContainer;
 
-        private IEnemy _currentEnemy;
-        
-        
+        private EnemyBase _currentEnemyBase;
+
+
         public void SpawnEnemy()
         {
-            var enemy = _diContainer.InstantiatePrefab(CreateNewEnemy(DefineLevelType()), transform.position, Quaternion.identity, null);
-            _currentEnemy = enemy.GetComponent<IEnemy>();
-            _enemyFactory.SetHealthCurrentEnemy(_currentEnemy,_levelHandler.CurrentLevel.Value);
-            _enemyFactory.SetRewardCurrentEnemy(_currentEnemy,_levelHandler.CurrentLevel.Value);
-            
-            _gameHandler.SetCurrentEnemy(_currentEnemy);
-            _playerHandler.SerCurrentEnemy(_currentEnemy);
+            var enemy = _diContainer.InstantiatePrefab(CreateNewEnemy(DefineLevelType()), transform.position,
+                Quaternion.identity, null);
+            _currentEnemyBase = enemy.GetComponent<EnemyBase>();
+            _currentEnemyBase.Init();
+            _currentEnemyBase.OnDeath += DeathCurrentEnemy;
+            _enemyFactory.SetHealthCurrentEnemy(_currentEnemyBase, _levelHandler.CurrentLevel.Value);
+            _enemyFactory.SetRewardCurrentEnemy(_currentEnemyBase, _levelHandler.CurrentLevel.Value);
+
+            _gameHandler.SetCurrentEnemy(_currentEnemyBase);
+            _playerHandler.SerCurrentEnemy(_currentEnemyBase);
         }
 
         private GameObject CreateNewEnemy(bool enemyBoss)
         {
             if (enemyBoss)
             {
-                Debug.Log("Враг-Босс");
                 var newBossEnemy = enemyBossPrefab;
                 return newBossEnemy;
             }
-         
-            Debug.Log("Обычный враг");
+
             var newEnemy = enemyPrefab;
             return newEnemy;
         }
-        
-        
 
-        public IEnemy GetCurrentEnemy()
+
+        public EnemyBase GetCurrentEnemy()
         {
-            return _currentEnemy;
+            return _currentEnemyBase;
         }
-        
+
         private bool DefineLevelType()
         {
             bool bossLevel = false;
@@ -63,12 +63,19 @@ namespace Core.Enemy
             {
                 return bossLevel = true;
             }
+
             return bossLevel = false;
         }
-        
+
         private bool IsDivisibleByTen(int number)
         {
             return number % 10 == 0;
+        }
+
+        private void DeathCurrentEnemy()
+        {
+            _currentEnemyBase.OnDeath -= DeathCurrentEnemy;
+            Destroy(_currentEnemyBase.gameObject);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Core.Game
         [SerializeField] private TextMeshProUGUI goldText;
         private readonly IntReactiveProperty _goldInStorage = new IntReactiveProperty();
         public IReactiveProperty<int> GoldInStorage => _goldInStorage;
+
         public void AddReward(int gold)
         {
             _goldInStorage.Value += gold;
@@ -19,7 +20,7 @@ namespace Core.Game
         {
             if (_goldInStorage.Value < gold)
                 return;
-            
+
             _goldInStorage.Value -= gold;
             goldText.text = _goldInStorage.Value.ToString();
         }

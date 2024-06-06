@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Core.Enemy;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -12,13 +13,13 @@ namespace Core.Game
         [Inject] private EnemySpawner _enemySpawner;
         [Inject] private LevelHandler _levelHandler;
         [Inject] private StorageHandler _storageHandler;
-        
-        private IEnemy _currentEnemy;
-        private int _rewardCurrentEnemy;
-        
-       // private readonly BoolReactiveProperty _currentEnemyDead = new BoolReactiveProperty();
 
-       // public IReadOnlyReactiveProperty<bool> CurrentEnemyDead => _currentEnemyDead;
+        private EnemyBase _currentEnemyBase;
+        private int _rewardCurrentEnemy;
+
+        // private readonly BoolReactiveProperty _currentEnemyDead = new BoolReactiveProperty();
+
+        // public IReadOnlyReactiveProperty<bool> CurrentEnemyDead => _currentEnemyDead;
 
 
         private void Start()
@@ -26,20 +27,20 @@ namespace Core.Game
             _enemySpawner.SpawnEnemy();
         }
 
-        public void SetCurrentEnemy(IEnemy currentEnemy)
+        public void SetCurrentEnemy(EnemyBase currentEnemyBase)
         {
-            _currentEnemy = currentEnemy;
-            _rewardCurrentEnemy = _currentEnemy.RewardGold;
+            _currentEnemyBase = currentEnemyBase;
+            _rewardCurrentEnemy = _currentEnemyBase.RewardGold;
             SubscribeToHealthEnemy();
         }
 
         private void SubscribeToHealthEnemy()
         {
-            _currentEnemy.Health
+            _currentEnemyBase.Health
                 .Where(_ => _ <= 0)
                 .Subscribe(_ =>
                 {
-                    StartCoroutine("DeadCurrentEnemy");
+                    DOVirtual.DelayedCall(1, DeadCurrentEnemy);
                 });
         }
         private void LevelComplete()
@@ -47,15 +48,12 @@ namespace Core.Game
             _levelHandler.LevelComplete();
             Debug.Log("LevelComplete");
         }
-        
-        private IEnumerator DeadCurrentEnemy()
+
+        private void DeadCurrentEnemy()
         {
             _storageHandler.AddReward(_rewardCurrentEnemy);
             LevelComplete();
-            Debug.Log("Умер");
-            // _currentEnemyDead.Value = true;
-            _currentEnemy = null;
-            yield return new WaitForSeconds(1f);
+            _currentEnemyBase = null;
             _enemySpawner.SpawnEnemy();
         }
     }

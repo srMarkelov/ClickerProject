@@ -10,21 +10,21 @@ namespace Core.Player
     public class PlayerHandler : MonoBehaviour
     {
         [SerializeField] private int attackPower = 2;
-        
-        private IEnemy _currentEnemy;
 
-        
-        public void SerCurrentEnemy(IEnemy enemy)
+        private EnemyBase _currentEnemyBase;
+
+
+        public void SerCurrentEnemy(EnemyBase enemyBase)
         {
-            _currentEnemy = enemy;
+            _currentEnemyBase = enemyBase;
         }
 
         public void Attack()
         {
-            _currentEnemy.TakeDamage(attackPower);
+            _currentEnemyBase.TakeDamage(attackPower);
             Debug.Log("Attack");
         }
-        
+
         public int GetAttackPower()
         {
             return attackPower;

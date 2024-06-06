@@ -5,25 +5,28 @@ using Zenject;
 
 namespace Core.Enemy
 {
-    public class EnemyUnit :MonoBehaviour, IEnemy
+    public class EnemyUnit : EnemyBase
     {
-        public IntReactiveProperty Health { get; set; }
-        public EnemyType EnemyType { get; set; }
-        public int RewardGold { get; set; }
         private bool _deathEnemy;
 
+
         private void Awake()
+        {
+            Init();
+        }
+
+        public override void Init()
         {
             Health = new IntReactiveProperty();
             EnemyType = EnemyType.EnemyUnit;
         }
 
-        public void SetHealth(int health)
+        public override void SetHealth(int health)
         {
             Health.Value = health;
         }
 
-        public void SetReward(int gold)
+        public override void SetReward(int gold)
         {
             RewardGold = gold;
         }
@@ -33,11 +36,11 @@ namespace Core.Enemy
             RewardGold = gold;
         }
 
-        public void TakeDamage(int valueDamage)
+        public override void TakeDamage(int valueDamage)
         {
-            if(_deathEnemy)
+            if (_deathEnemy)
                 return;
-            
+
             Health.Value -= valueDamage;
             if (Health.Value <= 0)
             {
@@ -45,11 +48,11 @@ namespace Core.Enemy
             }
         }
 
-        public void Death()
+        public override void Death()
         {
             _deathEnemy = true;
-            Debug.Log("BobikSdoh");
-            Destroy(gameObject);
+            OnDeath?.Invoke();
+            Debug.Log("EnemyUnit Died");
         }
     }
 }
